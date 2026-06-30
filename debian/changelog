@@ -1,3 +1,14 @@
+7zip (25.01+dfsg-1~deb13u2deepin1) unstable; urgency=medium
+
+  * Increase default SymLinks_DangerousLevel to 10 (=-snld10 behavior)
+  * Allows legitimate cross-directory symlinks (e.g. Wine winsxs)
+  * Disables overly strict LowLevel/FinalLevel checks for ../ in relative symlinks
+  * Disables chain symlink filesystem check to avoid false positives
+    in Wine prefixes where drive_c/windows/system32 is itself a symlink
+  * Still keeps IsSafePath() core defense against real directory traversal
+
+ -- lichenggang <lichenggang@uniontech.com>  Tue, 30 Jun 2026 21:38:44 +0800
+
 7zip (25.01+dfsg-1~deb13u2) trixie; urgency=medium
 
   * Non-maintainer upload by the LTS Security Team.
