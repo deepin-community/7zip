@@ -1,8 +1,7 @@
 0001-Accept-Debian-build-flags.patch
-0002-Disable-hardware-acceleration-support-on-armel.patch
-0003-Guard-ARM-v8-feature-from-old-architecture.patch
-0004-Use-getcwd-3-POSIX-extension-to-avoid-PATH_MAX-macro.patch
-0005-Disable-local-echo-display-when-in-input-passwords-C.patch
-0006-Fix-ARM-architecture-selection-code.patch
-0007-Add-__target__-fpu-neon-attribute-to-use-NEON-specif.patch
-0008-PPC-is-already-defined-as-1-on-PowerPC-compilers.patch
+0002-Use-getcwd-3-POSIX-extension-to-avoid-PATH_MAX-macro.patch
+0003-Disable-local-echo-display-when-in-input-passwords-C.patch
+0004-Use-system-locale-to-select-codepage-for-legacy-zip-.patch
+0005-Add-note-for-unexpected-recursive-operations-behavio.patch
+0006-Use-c-flags-for-asmc.patch
+0007-Add-fpic-for-Asmc-options.patch
