@@ -1,0 +1,40 @@
+From: lichenggang <lichenggang@uniontech.com>
+Date: Tue, 30 Jun 2026 21:30:00 +0800
+Subject: Increase default SymLinks_DangerousLevel to 10
+
+Change the default symbolic link dangerous level from 5 to 10.
+This relaxes the symlink security checks while keeping the
+IsSafePath() core defense active.
+
+Level 10 (vs 5) changes:
+- Disables the low-level check (level <= 5 && LowLevel < 0)
+  that incorrectly rejects symlinks with ../ that don't actually
+  escape the extraction root (e.g. winsxs/../../system32/*.dll).
+- Disables the final-level check (level <= 5 && FinalLevel < 1).
+- Disables the chain symlink filesystem check (CheckLinkPath_in_FS)
+  to avoid false positives when intermediate directories are
+  themselves symlinks (common in Wine prefixes).
+- Disables hardlink-to-symlink rejection.
+
+All real directory traversal attacks are still caught by the
+IsSafePath() check on the constructed full path
+(prefix path + link target).
+
+Signed-off-by: lichenggang <lichenggang@uniontech.com>
+---
+ CPP/7zip/UI/Common/ArchiveExtractCallback.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: 7zip/CPP/7zip/UI/Common/ArchiveExtractCallback.h
+===================================================================
+--- 7zip.orig/CPP/7zip/UI/Common/ArchiveExtractCallback.h
++++ 7zip/CPP/7zip/UI/Common/ArchiveExtractCallback.h
+@@ -75,7 +75,7 @@ struct CExtractNtOptions
+       ExtractOwner(false),
+       PreserveATime(false),
+       OpenShareForWrite(false),
+-      SymLinks_DangerousLevel(5),
++      SymLinks_DangerousLevel(10),
+       MemLimit((UInt64)(Int64)-1)
+   {
+     SymLinks.Val = true;
