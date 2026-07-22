@@ -1,30 +1,145 @@
-7zip (25.01+dfsg-1~deb13u2deepin1) unstable; urgency=medium
+7zip (26.02+dfsg-2) unstable; urgency=medium
 
-  * Increase default SymLinks_DangerousLevel to 10 (=-snld10 behavior)
-  * Allows legitimate cross-directory symlinks (e.g. Wine winsxs)
-  * Disables overly strict LowLevel/FinalLevel checks for ../ in relative symlinks
-  * Disables chain symlink filesystem check to avoid false positives
-    in Wine prefixes where drive_c/windows/system32 is itself a symlink
-  * Still keeps IsSafePath() core defense against real directory traversal
+  * Extend copyright years
+  * Add more text for "-mcp=" option in man page
 
- -- lichenggang <lichenggang@uniontech.com>  Tue, 30 Jun 2026 21:38:44 +0800
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sat, 04 Jul 2026 16:59:36 +0900
 
-7zip (25.01+dfsg-1~deb13u2) trixie; urgency=medium
+7zip (26.02+dfsg-1) unstable; urgency=medium
 
-  * Non-maintainer upload by the LTS Security Team.
+  * New upstream version 26.02+dfsg
 
-  [ YOKOTA Hiroshi ]
-  * Relax "breaks"/"replaces" line in debian/control, allowing for
-    p7zip/p7zip-rar/7zip OSPU.
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sat, 27 Jun 2026 22:16:09 +0900
 
- -- Sylvain Beucler <beuc@debian.org>  Fri, 10 Apr 2026 15:08:58 +0200
+7zip (26.01+dfsg-3) unstable; urgency=medium
 
-7zip (25.01+dfsg-1~deb13u1) trixie; urgency=medium
+  * Update dates in man pages.
 
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Tue, 23 Jun 2026 08:39:18 +0900
+
+7zip (26.01+dfsg-2) unstable; urgency=medium
+
+  * Update patch for better description text
+  * Refactor and simplify compilation options
+  * Add "7Z" to Make values
+  * Rediff patches
+  * Use "-Wno-error=" option instead of #pragma
+  * Minimize "-Wno-error=array-bounds" usage for specific files
+  * Use "-Wno-error=array-bounds" option to some specific files to avoid
+    false-positive error on GCC 16
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Mon, 11 May 2026 20:55:24 +0900
+
+7zip (26.01+dfsg-1) unstable; urgency=medium
+
+  * Revert version mangle for new upstream version
+  * New upstream version 26.01+dfsg
+  * Rediff patches
+  * Update man page for new "-spo{d|c|r}" option
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Tue, 28 Apr 2026 20:05:51 +0900
+
+7zip (26.00+dfsg1-3) unstable; urgency=medium
+
+  * Relax "breaks"/"replaces" line in debian/control
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sun, 19 Apr 2026 23:44:29 +0900
+
+7zip (26.00+dfsg1-2) unstable; urgency=medium
+
+  * Upgrade Debian Policy version
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Wed, 01 Apr 2026 04:04:20 +0900
+
+7zip (26.00+dfsg1-1) unstable; urgency=medium
+
+  * Use upstream source from GitHub
+  * Drop file permission hack
+  * New upstream version 26.00+dfsg1
+  * Change newline characters in patch files to Unix style
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Wed, 01 Apr 2026 01:50:36 +0900
+
+7zip (26.00+dfsg-5) unstable; urgency=medium
+
+  * Rediff patches
+  * Fix: Globally suppress GCC 11+ -Warray-bounds false positives
+    (Closes: #1132057)
+  * Apply patch for GCC-16+ only
+  * Forward array-bounds patch to upstream
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sun, 29 Mar 2026 16:54:17 +0900
+
+7zip (26.00+dfsg-4) unstable; urgency=medium
+
+  * Add more fixup for version strings
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sun, 15 Mar 2026 14:14:19 +0900
+
+7zip (26.00+dfsg-3) unstable; urgency=medium
+
+  * Fix Dversion-Mangle to download correct upstream file
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sat, 14 Mar 2026 13:37:49 +0900
+
+7zip (26.00+dfsg-2) unstable; urgency=medium
+
+  [ Sylvain Beucler ]
+  * Typo
+  * Typos in 7z Debian manpage
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Thu, 05 Mar 2026 12:46:40 +0900
+
+7zip (26.00+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 26.00+dfsg
+  * Rediff patches
+  * Extend copyright years
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Fri, 13 Feb 2026 16:12:27 +0900
+
+7zip (25.01+dfsg-5) unstable; urgency=medium
+
+  * Upgrade Debian standards to 4.7.3
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sat, 27 Dec 2025 23:00:04 +0900
+
+7zip (25.01+dfsg-4) unstable; urgency=medium
+
+  * Lintian fix: redundant-rules-requires-root-no-field
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Mon, 03 Nov 2025 13:30:51 +0900
+
+7zip (25.01+dfsg-3) unstable; urgency=medium
+
+  * Drop Emacs mode line from debian/watch
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Mon, 29 Sep 2025 11:28:16 +0900
+
+7zip (25.01+dfsg-2) unstable; urgency=medium
+
+  * Use V5 format for watch file
+  * Drop unused CI variable
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Sat, 23 Aug 2025 11:47:31 +0900
+
+7zip (25.01+dfsg-1) unstable; urgency=medium
+
+  * Add upstream repository
   * New upstream version 25.01+dfsg
-  * Fix CVE-2025-55188, CVE-2025-11002, CVE-2025-11001
+  * Rediff patches
 
- -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Tue, 14 Oct 2025 00:21:03 +0900
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Mon, 04 Aug 2025 11:33:19 +0900
+
+7zip (25.00+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 25.00+dfsg
+  * Rediff patches
+  * Drop unused macro while building SFX stub
+  * Disable CI for upstream codes branch
+  * Enable cross build test in CI
+
+ -- YOKOTA Hiroshi <yokota.hgml@gmail.com>  Tue, 08 Jul 2025 00:16:13 +0900
 
 7zip (24.09+dfsg-8) unstable; urgency=medium
 
