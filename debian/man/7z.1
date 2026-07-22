@@ -1,5 +1,5 @@
 .\"
-.TH 7z "1" "May 2023" "22.01"
+.TH 7z "1" "Apr 2026" "26.01"
 .SH NAME
 7z \- 7-Zip file archiver with a high compression ratio
 .SH SYNOPSIS
@@ -54,10 +54,10 @@ for \fI\,file_names\fR\,.
 This behavior leads some unexpected result.
 .TP
 "a" (add) command
-Recurcevily add files from current directory into \fI\,archive_name\fR file.
+Recursively add files from current directory into \fI\,archive_name\fR file.
 .TP
 "d" (delete) command
-Recurcively delete files from \fI\,archive_name\fR file.
+Recursively delete files from \fI\,archive_name\fR file.
 This means \fB\,delete all files\fR from \fI\,archive_name\fR file.
 .SH OPTIONS
 .SS Commands
@@ -140,9 +140,10 @@ set compression level: \-mx1 (fastest) ... \-mx9 (ultra)
 \-mcp=[\fIcodepage number\fR]
 [Extra options for Zip format]:
 .br
-Use \fIcodepage number\fR for file name encoding.
-When 7-Zip detects legacy Zip format, 7-Zip automatically choose suitable legacy
-codepage number by your current locale.
+Use \fIcodepage number\fR for internal file name encoding in the archive file.
+When 7-Zip detects legacy (MS-DOS etc.) Zip format, 7-Zip automatically choose suitable legacy
+encoding codepage number for internal file name encoding by your current locale,
+and converts to UTF-8 for external file name encoding.
 If automatic codepage chooser fails, use this option to manually set codepage number.
 .br
 (example): Use "\-mcp=437" for CP437
@@ -211,6 +212,25 @@ eliminate duplication of root folder for extract command
 \-spf
 use fully qualified file paths
 .TP
+\-spo{d|c|r}
+specifies the path generation mode for the output directory
+for archive extraction. The output directory path is generated from the path specified
+in the -o{\fI\,dir_path\fR\,} switch and the name of the archive being unpacked.
+.RS
+.TQ
+\-spod
+for Linux/Posix/macOS: -o{\fI\,dir_path\fR\,} specifies the direct path to the output directory.
+The asterisk (*) character in {\fI\,dir_path\fR\,} will not be replaced by the archive name.
+.TQ
+\-spoc
+7-Zip will concatenate the path specified in -o{\fI\,dir_path\fR\,} with the archive name
+to form the final path to the output directory.
+.TQ
+\-spor
+7-Zip will replace asterisk (*) character in the path specified in the -o{\fI\,dir_path\fR\,}
+with the archive name. This is the default option.
+.RE
+.TP
 \-ssc[\-]
 set sensitive case mode
 .TP
@@ -254,6 +274,6 @@ assume Yes on all queries
 .UR https://\:www.7-zip.org/
 .UE
 .SH COPYRIGHT
-Copyright \(co 1999\-2023 Igor Pavlov.
+Copyright \(co 1999\-2026 Igor Pavlov.
 .br
 Distributed under the LGPL-2.1+ license.
