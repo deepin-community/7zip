@@ -1,3 +1,16 @@
+7zip (26.02+dfsg-2deepin2) unstable; urgency=medium
+
+  * Fix absolute symlink handling on Linux
+    - Preserve absolute symlink paths (e.g. /opt/...) instead of
+      stripping the leading '/' and prepending the output directory
+    - Fix CLinkInfo::Remove_AbsPathPrefixes() to not strip '/'
+      on Linux for native paths
+    - Fix SetLink2() security check to allow Linux absolute paths
+    - Fixes symlinks like /opt/deepin-wine11-stable/lib/...
+      being incorrectly rewritten to /tmp/extract/opt/...
+
+ -- lichenggang <lichenggang@uniontech.com>  Tue, 28 Jul 2026 10:27:08 +0800
+
 7zip (26.02+dfsg-2deepin1) unstable; urgency=medium
 
   * Increase default SymLinks_DangerousLevel from 5 to 10
