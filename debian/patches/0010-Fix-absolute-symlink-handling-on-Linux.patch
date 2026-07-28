@@ -1,0 +1,80 @@
+From: lichenggang <lichenggang@uniontech.com>
+Date: Tue, 28 Jul 2026 10:30:00 +0800
+Subject: Fix absolute symlink handling on Linux
+
+7-Zip incorrectly strips the leading '/' from absolute symlink
+targets on Linux (e.g. /opt/deepin-wine11-stable/lib/...), then
+prepends the extraction output directory, producing broken symlinks
+like /tmp/extract/opt/deepin-... instead of /opt/deepin-...
+
+Root cause: CLinkInfo::Remove_AbsPathPrefixes() unconditionally
+removes the root prefix '/' from absolute paths, treating them as
+relative to the archive root. The subsequent SetLink2() then
+prepends the extraction directory, producing incorrect paths.
+
+Fix:
+1. In Remove_AbsPathPrefixes(): on Linux, preserve absolute
+   symlink paths starting with '/' instead of stripping the prefix.
+2. In SetLink2() security check: allow Linux absolute paths
+   (non-Windows absolute paths) through the IsAbsolute check.
+3. In SetLink2() IsSafePath check: skip the safety check for
+   Linux absolute paths since they are valid absolute paths.
+
+Signed-off-by: lichenggang <lichenggang@uniontech.com>
+---
+--- 7zip.orig/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ 7zip/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -2171,8 +2171,13 @@ static HRESULT SetLink2(const CArchiveExtractCallback &callback,
+     li.Parse(link.LinkPath, link.Is_WSL());
+     bool isDang;
+     UString relativePathPrefix;
+-    if (li.IsAbsolute // unexpected
+-        || li.ParentDirDots_after_NonParent
++    if ((li.IsAbsolute // unexpected
++#ifndef _WIN32
++        // On Linux, absolute symlinks (e.g., /opt/...) are valid and should
++        // be preserved. Only reject Windows-style absolute paths.
++        && link.isWindowsPath
++#endif
++        ) || li.ParentDirDots_after_NonParent
+         || (level <= 5 && link.isRelative && li.FinalLevel < 1) // final level lower
+         || (level <= 5 && link.isRelative && li.LowLevel < 0)   // negative temporary levels
+        )
+@@ -2204,8 +2209,16 @@ static HRESULT SetLink2(const CArchiveExtractCallback &callback,
+       if (!link.isRelative), then (path == link.LinkPath)
+       */
+       isDang = false;
++#ifndef _WIN32
++      // On Linux, absolute symlink paths (starting with '/') are valid.
++      // Skip IsSafePath for absolute paths; use it for relative paths.
++      if (!(path[0] == WCHAR_PATH_SEPARATOR && !link.isRelative)
++          && !IsSafePath(path, link.Is_WSL()))
++        isDang = true;
++#else
+       if (!IsSafePath(path, link.Is_WSL()))
+         isDang = true;
++#endif
+     }
+     const char *message = NULL;
+     if (isDang)
+@@ -2431,6 +2444,19 @@ void CLinkInfo::Remove_AbsPathPrefixes()
+         break;
+       n = 1;
+     }
++
++#ifndef _WIN32
++    // On Linux, preserve absolute symlink paths (starting with '/')
++    // as they are valid absolute paths in the filesystem.
++    // Do NOT strip the leading '/' to avoid the path being reinterpreted
++    // as relative to the extraction output directory.
++    if (!isWindowsPath)
++    {
++      isRelative = false;
++      return;
++    }
++#endif
++
+     isRelative = false; // (LinkPath) will be treated as relative to root folder of archive
+     LinkPath.DeleteFrontal(n);
+   }
+
